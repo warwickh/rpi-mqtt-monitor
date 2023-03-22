@@ -47,7 +47,7 @@ def check_used_space(path):
 
 def check_cpu_load():
     p = subprocess.Popen("uptime", shell=True, stdout=subprocess.PIPE).communicate()[0]
-    cores = subprocess.Popen("nproc", shell=True, stdout=subprocess.PIPE).communicate()[0]
+    cores = 4#subprocess.Popen("nproc", shell=True, stdout=subprocess.PIPE).communicate()[0]
     cpu_load = str(p).split("average:")[1].split(", ")[0].replace(' ', '').replace(',', '.')
     cpu_load = float(cpu_load) / int(cores) * 100
     cpu_load = round(float(cpu_load), 1)

@@ -2,29 +2,9 @@ welcome(){
   echo "  This script will install if not installed: python-pip and python module paho-mqtt,"
   echo "  configure Raspberry Pi MQTT monitor and create a cronjob to run it."
   read -r -p "  Do you want to proceed? [y/N] " response
-  if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    printf ""
+  if [ "$response" != "${answer#[Yy]}" ] ;then
+    echo Yes
   else
-    exit
-  fi	
-}
-
-find_python(){
-  if [[ $(python --version)  ]]; then 
-    python=$(which python)
-    pip="python-pip"
-    pip_run='pip'
-  else
-    python=$(which python3)
-    pip="python3-pip"
-    pip_run='pip3'
-  fi
-
-  if [[ "$python" == *"python"* ]]; then
-    print_green "+ Found: $python"
-
-  else
-    print_yellow "Python not found!\n Exiting\n"
     exit
   fi
 }
@@ -46,22 +26,6 @@ print_green(){
 print_yellow(){
   tput setaf 3; printf "$1"
   tput sgr 0
-}
-
-check_and_install_pip(){
-
-  pip_ver=$(${python} -m pip --version 2>&1);
-  if [[ "$pip_ver" == *"No"* ]]; then
-    echo "- Pip is not installed, installing it."
-    sudo apt install $pip
-    else
-    print_green "+ Found: $pip"
-  fi
-}
-
-install_requirements(){
-  printm "Installing requirements"
-  sudo $pip_run install -r requirements.txt
 }
 
 update_config(){
